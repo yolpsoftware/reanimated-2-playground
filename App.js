@@ -55,22 +55,24 @@ export default function CoupledScrollViews(props) {
     useDerivedValue(() => {
         //console.info('updated');
         //if (isCurrentlyScrolling[0].value) {
-            /*console.info(`useDerived ${scrollIndices[0].value}`);
+            //console.info(`useDerived ${scrollIndices[0].value}, ${scrollIndices[1].value}, ${scrollIndices[2].value}`);
             const index = Math.floor(scrollIndices[0].value);
             const progress = scrollIndices[0].value - index;
             const course = levelCourses[0][index];
             if (!course) {
                 console.info('course undefined');
             } else {
-                scrollIndices[1].value = scrollIndices[0].value / course.nOfSiblings[1];
-            }*/
+                scrollIndices[1].value = progress; //scrollIndices[0].value; // / course.nOfSiblings[1];
+                scrollIndices[2].value = progress; //scrollIndices[0].value;
+                //console.info(`progress: ${progress}`)
+            }
             //for (let i = 1; i < 4; i++) {
             //    scrollIndices[i].setValue(course.nOfSiblings[i]
             //}
         //}
         //scrollTo(aref, 0, scroll.value * 100, true);
     });
-    const scrollRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
+    const scrollRefs = [useAnimatedRef(null), useAnimatedRef(null), useAnimatedRef(null), useAnimatedRef(null)];
     const onCoursePress = useCallback((course) => {
         setSelectedCourse(course.course);
         const courseLevel = course.index.length;
@@ -141,6 +143,7 @@ export default function CoupledScrollViews(props) {
                 <Animated.View key={level} style={[styles.catalogLevel, { zIndex: -level}]}>{/*, transform: [{ translateY: levelYOffsets[level] }] }]}>*/}
                     <CourseList courses={levelCourses[level]} onCoursePress={onCoursePress} scrollRef={scrollRefs[level]}
                                 scrollIndex={scrollIndices[level]} isCurrentlyScrolling={isCurrentlyScrolling[level]}
+                                level={level}
                                 />
                 </Animated.View>
             ))}
@@ -258,9 +261,10 @@ const CourseList = (props) => {
         }, 100);
     }
 
-    let scrollIndex = props.scrollIndex;
-    if (!scrollIndex) {
-        console.info(`scrollIndex null`)
+    const scrollIndex = props.scrollIndex;
+    const isCurrentlyScrolling = props.isCurrentlyScrolling;
+    if (!scrollIndex || !isCurrentlyScrolling) {
+        console.info(`scrollIndex or isCurrentlyScrolling null`)
     }
     const scrollHandler = useAnimatedScrollHandler({
         onScroll: (event) => {
@@ -279,6 +283,25 @@ const CourseList = (props) => {
                 }
             }
             scrollIndex.value = offsets.value.length;
+        },
+        onBeginDrag: () => {
+            isCurrentlyScrolling.value = 1;
+        },
+        onEndDrag: () => {
+            isCurrentlyScrolling.value = 0;
+        },
+    });
+    // --- listening to scrollIndex changes outside of the component
+    const scrollRef = props.scrollRef;
+    const level = props.level;
+    useDerivedValue(() => {
+        //console.info(`isCurrentlyScrolling.value ${isCurrentlyScrolling.value} ${scrollIndex.value}`);
+        if (isCurrentlyScrolling.value === 0 && offsets.value.length > 0) {
+            const index = Math.max(Math.min(Math.floor(scrollIndex.value), offsets.value[offsets.value.length - 1]), 0);
+            const progress = Math.max(Math.min(scrollIndex.value - index, 1), 0);
+            const newScrollOffset = offsets.value[index] + (index < offsets.value.length - 1 ? progress * (offsets.value[index + 1] - offsets.value[index]) : 0);
+            //console.info(`level ${level}: ${index}, ${progress}, ${newScrollOffset}`)
+            scrollTo(scrollRef, newScrollOffset, 0, false);
         }
     })
     return (
