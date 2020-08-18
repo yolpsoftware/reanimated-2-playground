@@ -248,14 +248,22 @@ const CourseList = (props) => {
         }, 100);
     }
 
+    let scrollIndex = props.scrollIndex;
+    if (!scrollIndex) {
+        console.info(`scrollIndex null`)
+    }
+    console.info(scrollIndex.value);
     const scrollHandler = useAnimatedScrollHandler({
         onScroll: (event) => {
-            console.info(`scrolling ${event.contentOffset.x}`)
-            //props.scrollIndex.setValue(event.contentOffset.x / 300);    // TODO: involve offsets
+            //console.info(`scrolling ${event.contentOffset.x}`);
+            //console.info(scrollIndex);
+            //console.info(`scrolling ${props.scrollIndex == null ? 'null' : props.scrollIndex}`)
+            scrollIndex.value = event.contentOffset.x / 300;    // TODO: involve offsets
         }
     })
     return (
-        <FlatList ref={props.scrollRef} data={props.courses} style={[styles.flatlist]}
+        <AnimatedFlatList ref={props.scrollRef} data={props.courses}
+            style={[styles.flatlist]}
             showsHorizontalScrollIndicator={false}
             renderItem={renderCourseCb}
             horizontal={true}
