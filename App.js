@@ -2,6 +2,8 @@ import Animated, {
     useAnimatedScrollHandler,
     scrollTo,
     useAnimatedRef,
+    useDerivedValue,
+    useSharedValue,
 } from 'react-native-reanimated';
 import {View, Text, SafeAreaView, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import React, { useRef, useState, useCallback } from 'react';
@@ -23,8 +25,8 @@ export default function CoupledScrollViews(props) {
             levelCourses.push(getSubLevelCourses(levelCourses[i - 1]));
         }
         levelYOffsets.push(new Animated.Value(0));
-        scrollIndices.push(new Animated.Value(0));
-        isCurrentlyScrolling.push(new Animated.Value(false));
+        scrollIndices.push(useSharedValue(0));
+        isCurrentlyScrolling.push(useSharedValue(0));
     }
     // copy sub-level list indices to parent levels
     const lowestLevel = levelCourses[NOF_LEVELS - 1];
@@ -49,15 +51,17 @@ export default function CoupledScrollViews(props) {
     });
     // --- here we do the actual coupling of the ScrollViews (CAR-179). This worklet is run whenever one of the scrollIndices or isCurrentlyScrolling values changes
     /*useDerivedValue(() => {
-        if (isCurrentlyScrolling[0].value) {
+        //if (isCurrentlyScrolling[0].value) {
+            console.info(`${scrollIndices[0].value}`);
             const index = Math.floor(scrollIndices[0].value);
             const progress = scrollIndices[0].value - index;
             const course = levelCourses[0][index];
-            scrollIndices[1].setValue( course.nOfSiblings[1]
+            console.info(`course`)
+            //scrollIndices[1].setValue( course.nOfSiblings[1]
             //for (let i = 1; i < 4; i++) {
             //    scrollIndices[i].setValue(course.nOfSiblings[i]
             //}
-        }
+        //}
         //scrollTo(aref, 0, scroll.value * 100, true);
     });*/
     const scrollRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
@@ -244,12 +248,18 @@ const CourseList = (props) => {
         }, 100);
     }
 
+    const scrollHandler = useAnimatedScrollHandler({
+        onScroll: (event) => {
+            console.info(`scrolling ${event.contentOffset.x}`)
+            //props.scrollIndex.setValue(event.contentOffset.x / 300);    // TODO: involve offsets
+        }
+    })
     return (
         <FlatList ref={props.scrollRef} data={props.courses} style={[styles.flatlist]}
             showsHorizontalScrollIndicator={false}
             renderItem={renderCourseCb}
             horizontal={true}
-            scrollEventThrottle={60}
+            onScroll={scrollHandler} scrollEventThrottle={60}
             snapToOffsets={offsets}
             snapToAlignment={'start'}
             keyExtractor={item => item.course.id}
