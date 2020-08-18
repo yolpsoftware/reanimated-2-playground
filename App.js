@@ -3,8 +3,8 @@ import Animated, {
     scrollTo,
     useAnimatedRef,
 } from 'react-native-reanimated';
-import {View, Text, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
-import React, { useRef, useState } from 'react';
+import {View, Text, SafeAreaView, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import React, { useRef, useState, useCallback } from 'react';
 
 const LEVEL_HEIGHT = 70;
 const NOF_LEVELS = 4;
@@ -365,7 +365,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const rootCourse = [
+const rootCourse =
     {
      "id": "root",
      "title": {
@@ -728,5 +728,4 @@ const rootCourse = [
        ],
        "image": "https://images.unsplash.com/photo-1520856990214-7a9e59dd5ff7?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
       }]
-    }
-];
+    };
