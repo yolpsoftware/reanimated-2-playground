@@ -11,6 +11,8 @@ import React, { useRef, useState, useCallback } from 'react';
 const LEVEL_HEIGHT = 70;
 const NOF_LEVELS = 4;
 
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
+
 export default function CoupledScrollViews(props) {
 
     const [selectedCourse, setSelectedCourse] = useState(null);
@@ -49,21 +51,26 @@ export default function CoupledScrollViews(props) {
             }
         }
     });
+    console.log(JSON.stringify(levelCourses[0][0]))
     // --- here we do the actual coupling of the ScrollViews (CAR-179). This worklet is run whenever one of the scrollIndices or isCurrentlyScrolling values changes
-    /*useDerivedValue(() => {
+    useDerivedValue(() => {
+        //console.info('updated');
         //if (isCurrentlyScrolling[0].value) {
-            console.info(`${scrollIndices[0].value}`);
+            console.info(`useDerived ${scrollIndices[0].value}`);
             const index = Math.floor(scrollIndices[0].value);
             const progress = scrollIndices[0].value - index;
             const course = levelCourses[0][index];
-            console.info(`course`)
-            //scrollIndices[1].setValue( course.nOfSiblings[1]
+            if (!course) {
+                console.info('course undefined');
+            } else {
+                scrollIndices[1].value = scrollIndices[0].value / course.nOfSiblings[1];
+            }
             //for (let i = 1; i < 4; i++) {
             //    scrollIndices[i].setValue(course.nOfSiblings[i]
             //}
         //}
         //scrollTo(aref, 0, scroll.value * 100, true);
-    });*/
+    });
     const scrollRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
     const onCoursePress = useCallback((course) => {
         setSelectedCourse(course.course);
@@ -252,7 +259,6 @@ const CourseList = (props) => {
     if (!scrollIndex) {
         console.info(`scrollIndex null`)
     }
-    console.info(scrollIndex.value);
     const scrollHandler = useAnimatedScrollHandler({
         onScroll: (event) => {
             //console.info(`scrolling ${event.contentOffset.x}`);
