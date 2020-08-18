@@ -1,148 +1,51 @@
-import React from 'react';
-import { StyleSheet, View, Text, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  useAnimatedGestureHandler,
+  useAnimatedScrollHandler,
   scrollTo,
-  useDerivedValue,
   useAnimatedRef,
 } from 'react-native-reanimated';
-import { PanGestureHandler } from 'react-native-gesture-handler';
+import {View, Text, SafeAreaView} from 'react-native';
+import React, { useRef, useState } from 'react';
 
-const digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-const indices = [0, 1, 2, 3];
+export default function OnScrollScrollTo(props) {
 
-const range = [0, 9999];
+  const svStyle = {
+    height: 70,
+    flexGrow: 0,
+    //backgroundColor: 'red',
+  };
 
-const dotSize = 40;
+  const itemStyle = { padding: 20 };
 
-export default function ScrollToScreen() {
-  const progress = useSharedValue(0);
-  const number = useDerivedValue(() => {
-    const val = range[0] + Math.round(progress.value * (range[1] - range[0]));
-    return val;
+  const [state, setState] = useState(0);
+  const sv1 = useAnimatedRef();
+  const sv2 = useRef();
+  const onScrollSv2 = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      scrollTo(sv1, event.contentOffset.x * 0.5, 0, false);
+      //setState(event.contentOffset.x);
+    },
   });
 
   return (
-    <SafeAreaView>
-      <View style={{ alignItems: 'center' }}>
-        <NumberDisplay number={number} />
-        <Text>move dot</Text>
-        <View>
-          <ProgressBar  progress={progress} />
-        </View>
-      </View>
-    </SafeAreaView>
-  );
-}
-
-function getDigit(number, i) {
-  return useDerivedValue(() => {
-    return Math.floor(number.value / 10 ** i) % 10;
-  });
-}
-
-function NumberDisplay({ number }) {
-  return (
-    <View style={{ height: 400, width: 200 }}>
+    <>
+      <SafeAreaView></SafeAreaView>
+      <Text>{state}</Text>
       <View
         style={{
-          flexDirection: 'row-reverse',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
         }}>
-        {indices.map((i) => {
-          return <Digit digit={getDigit(number, i)} key={i} />;
-        })}
+        <Animated.ScrollView ref={sv1} style={svStyle} horizontal>
+          {[...Array(14).keys()].map(x => <Text key={x} style={itemStyle}>{x}</Text>)}
+        </Animated.ScrollView>
+        <Animated.ScrollView ref={sv2} style={svStyle} horizontal
+                             onScroll={onScrollSv2} scrollEventThrottle={1}
+                             >
+          {[...Array(20).keys()].map(x => <Text key={x} style={itemStyle}>{x}</Text>)}
+        </Animated.ScrollView>
       </View>
-    </View>
+      <SafeAreaView></SafeAreaView>
+    </>
   );
 }
-
-function Digit({ digit }) {
-  const aref = useAnimatedRef();
-
-  useDerivedValue(() => {
-    scrollTo(aref, 0, digit.value * 200, true);
-  });
-
-  return (
-    <View style={{ height: 200 }}>
-      <ScrollView ref={aref}>
-        {digits.map((i) => {
-          return (
-            <View
-              style={{
-                height: 200,
-                alignItems: 'center',
-                flexDirection: 'row',
-              }}
-              key={i}>
-              <Text style={{ fontSize: 30 }}>{i}</Text>
-            </View>
-          );
-        })}
-      </ScrollView>
-    </View>
-  );
-}
-
-function ProgressBar({ progress }) {
-  const x = useSharedValue(0);
-  const max = useSharedValue(0);
-
-  const handler = useAnimatedGestureHandler({
-    onStart: (_, ctx) => {
-      ctx.x = x.value;
-    },
-    onActive: (e, ctx) => {
-      let newVal = ctx.x + e.translationX;
-      newVal = Math.min(max.value, newVal);
-      newVal = Math.max(0, newVal);
-      x.value = newVal;
-    },
-    onEnd: (_) => {
-      progress.value = x.value / max.value;
-    },
-  });
-
-  const stylez = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateX: x.value }],
-    };
-  });
-
-  const barStyle = useAnimatedStyle(() => {
-    return {
-      width: max.value,
-    };
-  });
-  return (
-    <View
-      style={{ height: 100, paddingRight: 80, paddingLeft: 40, width: 300 }}>
-      <View
-        onLayout={(e) => {
-          max.value = e.nativeEvent.layout.width;
-        }}>
-        <Animated.View style={ [{ backgroundColor: 'black', height: 2, marginRight: 20, transform: [
-          { translateY: dotSize/2 + 1 },
-          { translateX: dotSize/2 },
-        ] }, barStyle] } />
-        <PanGestureHandler onGestureEvent={handler}>
-          <Animated.View style={[styles.dot, stylez]} />
-        </PanGestureHandler>
-      </View>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  dot: {
-    borderRadius: 100,
-    backgroundColor: 'black',
-    width: dotSize,
-    height: dotSize,
-  },
-});
