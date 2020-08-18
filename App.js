@@ -51,12 +51,11 @@ export default function CoupledScrollViews(props) {
             }
         }
     });
-    console.log(JSON.stringify(levelCourses[0][0]))
     // --- here we do the actual coupling of the ScrollViews (CAR-179). This worklet is run whenever one of the scrollIndices or isCurrentlyScrolling values changes
     useDerivedValue(() => {
         //console.info('updated');
         //if (isCurrentlyScrolling[0].value) {
-            console.info(`useDerived ${scrollIndices[0].value}`);
+            /*console.info(`useDerived ${scrollIndices[0].value}`);
             const index = Math.floor(scrollIndices[0].value);
             const progress = scrollIndices[0].value - index;
             const course = levelCourses[0][index];
@@ -64,7 +63,7 @@ export default function CoupledScrollViews(props) {
                 console.info('course undefined');
             } else {
                 scrollIndices[1].value = scrollIndices[0].value / course.nOfSiblings[1];
-            }
+            }*/
             //for (let i = 1; i < 4; i++) {
             //    scrollIndices[i].setValue(course.nOfSiblings[i]
             //}
@@ -203,7 +202,7 @@ const getSubLevelCourses = (courses) => {
 
 const CourseList = (props) => {
 
-    const [offsets, setOffsets] = useState([]);
+    const offsets = useSharedValue([]);
     let itemWidths = [];
     let debouncer = null;
 
@@ -220,7 +219,11 @@ const CourseList = (props) => {
             itemWidths[item.index] = width;
             clearTimeout(debouncer);
             debouncer = setTimeout(() => {
-                const newOffsets = [...offsets];
+                //const newOffsets = [...offsets.value];
+                const newOffsets = [];
+                for (let i = 0; i < offsets.value.length; i++) {
+                    newOffsets[i] = offsets.value[i];
+                }
                 //console.info(`offsets: ${newOffsets.join(',')}`)
                 const max = Math.max(itemWidths.length + 1, newOffsets.length);
                 for (let i = 0; i < max; i++) {
@@ -232,7 +235,7 @@ const CourseList = (props) => {
                     newOffsets[i + 1] = newOffsets[i] + (itemWidths[i] || 0);
                 }
                 //console.info(`settings offsets: ${newOffsets.join(',')}`)
-                setOffsets(newOffsets);
+                offsets.value = newOffsets;
             }, 30);
         }
         const courseIndex = item.item;
@@ -261,10 +264,21 @@ const CourseList = (props) => {
     }
     const scrollHandler = useAnimatedScrollHandler({
         onScroll: (event) => {
-            //console.info(`scrolling ${event.contentOffset.x}`);
-            //console.info(scrollIndex);
-            //console.info(`scrolling ${props.scrollIndex == null ? 'null' : props.scrollIndex}`)
-            scrollIndex.value = event.contentOffset.x / 300;    // TODO: involve offsets
+            // TODO PERF might be optimized via binary search
+            for (let i = 0; i < offsets.value.length; i++) {
+                if (offsets.value[i] > event.contentOffset.x) {
+                    if (i === 0) {
+                        console.info('0')
+                        scrollIndex.value = 0;
+                    } else {
+                        let value = i - 1 + (event.contentOffset.x - offsets.value[i - 1]) / (offsets.value[i] - offsets.value[i - 1]);
+                        console.info(value)
+                        scrollIndex.value = value;
+                    }
+                    return;
+                }
+            }
+            scrollIndex.value = offsets.value.length;
         }
     })
     return (
@@ -274,7 +288,7 @@ const CourseList = (props) => {
             renderItem={renderCourseCb}
             horizontal={true}
             onScroll={scrollHandler} scrollEventThrottle={60}
-            snapToOffsets={offsets}
+            snapToOffsets={offsets.value}
             snapToAlignment={'start'}
             keyExtractor={item => item.course.id}
             initialNumToRender={10}
