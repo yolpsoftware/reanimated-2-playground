@@ -190,85 +190,73 @@ const getSubLevelCourses = (courses) => {
     return result;
 }
 
-class CourseList extends React.Component {
+const CourseList = (props) => {
 
-    itemWidths = [];
-    debouncer = null;
+    const [offsets, setOffsets] = useState([]);
+    let itemWidths = [];
+    let debouncer = null;
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            offsets: [0],
-        }
-    }
-
-    renderCourseCb = (item) => {
+    const renderCourseCb = (item) => {
         if (item.item.index == null) {
             debugger;
         }
         const course = item.item.course;
         const onLayout = (event) => {
             const width = event.nativeEvent.layout.width;
-            if (this.itemWidths[item.index] === width) {
+            if (itemWidths[item.index] === width) {
                 return;
             }
-            this.itemWidths[item.index] = width;
-            clearTimeout(this.debouncer);
-            this.debouncer = setTimeout(() => {
-                console.info(`setting offsets`)
-                this.setState(state => {
-                    const newOffsets = [...state.offsets];
-                    const max = Math.max(this.itemWidths.length + 1, newOffsets.length);
-                    for (let i = 0; i < max; i++) {
-                        if (newOffsets[i] == null) {
-                            newOffsets[i] = 0;
-                        }
+            itemWidths[item.index] = width;
+            clearTimeout(debouncer);
+            debouncer = setTimeout(() => {
+                const newOffsets = [...offsets];
+                //console.info(`offsets: ${newOffsets.join(',')}`)
+                const max = Math.max(itemWidths.length + 1, newOffsets.length);
+                for (let i = 0; i < max; i++) {
+                    if (newOffsets[i] == null) {
+                        newOffsets[i] = 0;
                     }
-                    for (let i = 0; i < max - 1; i++) {
-                        newOffsets[i + 1] = newOffsets[i] + this.itemWidths[i];
-                    }
-                    return {
-                        offsets: newOffsets,
-                    };
-                });
-            }, 500);
+                }
+                for (let i = 0; i < max - 1; i++) {
+                    newOffsets[i + 1] = newOffsets[i] + (itemWidths[i] || 0);
+                }
+                //console.info(`settings offsets: ${newOffsets.join(',')}`)
+                setOffsets(newOffsets);
+            }, 30);
         }
         const courseIndex = item.item;
         return (
             <CourseView key={course.id} course={course} index={courseIndex.index}
-                onPress={() => this.props.onCoursePress(courseIndex)}
+                onPress={() => props.onCoursePress(courseIndex)}
                 onLayout={onLayout}
-                isLast={item.index === this.props.courses.length - 1}
+                isLast={item.index === props.courses.length - 1}
                 isShadow={courseIndex.isShadow}
                 />
         );
     }
 
-    onScrollToIndexFailed = (error) => {
-        this.props.scrollRef.current.scrollToOffset({ offset: error.averageItemLength * error.index, animated: true });
+    const onScrollToIndexFailed = (error) => {
+        props.scrollRef.current.scrollToOffset({ offset: error.averageItemLength * error.index, animated: true });
         setTimeout(() => {
-            if (this.props.scrollRef?.current !== null) {
-                this.props.scrollRef.current.scrollToIndex({ index: error.index, animated: true });
+            if (props.scrollRef?.current !== null) {
+                props.scrollRef.current.scrollToIndex({ index: error.index, animated: true });
             }
         }, 100);
     }
 
-    render() {
-        return (
-            <FlatList ref={this.props.scrollRef} data={this.props.courses} style={[styles.flatlist]}
-                showsHorizontalScrollIndicator={false}
-                renderItem={this.renderCourseCb}
-                horizontal={true}
-                scrollEventThrottle={60}
-                snapToOffsets={this.state.offsets}
-                snapToAlignment={'start'}
-                keyExtractor={item => item.course.id}
-                initialNumToRender={10}
-                onScrollToIndexFailed={this.onScrollToIndexFailed}
-                />
-        );
-    }
+    return (
+        <FlatList ref={props.scrollRef} data={props.courses} style={[styles.flatlist]}
+            showsHorizontalScrollIndicator={false}
+            renderItem={renderCourseCb}
+            horizontal={true}
+            scrollEventThrottle={60}
+            snapToOffsets={offsets}
+            snapToAlignment={'start'}
+            keyExtractor={item => item.course.id}
+            initialNumToRender={10}
+            onScrollToIndexFailed={onScrollToIndexFailed}
+            />
+    );
 }
 
 const DEBUG_COLORS = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'brown', 'turquoise'];
