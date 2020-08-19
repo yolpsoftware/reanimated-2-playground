@@ -60,6 +60,7 @@ export default function CoupledScrollViews(props) {
         for (let level = 0; level < 3; level++) {
             if (maxIsCurrentlyScrolling === 2 && isCurrentlyScrolling[level].value === 1) {
                 isCurrentlyScrolling[level].value = 0;
+                console.info(`setting level ${level} scrolling to ${0}`);
             } else if (isCurrentlyScrolling[level].value > 0) {
                 const index = Math.floor(scrollIndices[level].value);
                 const progress = scrollIndices[level].value - index;
@@ -73,13 +74,13 @@ export default function CoupledScrollViews(props) {
                             scrollIndices[otherLevel].value = withSpring(course.listIndex[otherLevel], {
                                 damping: 20,
                                 mass: 1,
-                                stiffness: 100 + level * 20,
+                                stiffness: 150 + level * 10,
                             });
                         } else if (otherLevel > level) {
                             scrollIndices[otherLevel].value = withSpring(course.listIndex[otherLevel] + course.nOfSiblings[otherLevel] * progress, {
                                 damping: 20,
                                 mass: 1,
-                                stiffness: 100 + level * 20,
+                                stiffness: 150 + level * 10,
                             });
                         }
                     }
@@ -211,7 +212,11 @@ const getSubLevelCourses = (courses) => {
 const CourseList = (props) => {
 
     const offsets = useSharedValue([]);
-    let itemWidths = [];
+    const [offsetsRerenderCounter, doRerender] = useState(0);
+    let [itemWidths, setItemWidths] = useState([]);
+    if (props.level === 2) {
+        console.info(`creating new itemWidths array for level ${level}`);
+    }
     let debouncer = null;
 
     const renderCourseCb = (item) => {
@@ -224,7 +229,9 @@ const CourseList = (props) => {
             if (itemWidths[item.index] === width) {
                 return;
             }
-            itemWidths[item.index] = width;
+            const newItemWidths = [...itemWidths];
+            newItemWidths[item.index] = width;
+            setItemWidths(newItemWidths);
             clearTimeout(debouncer);
             debouncer = setTimeout(() => {
                 //const newOffsets = [...offsets.value];
@@ -242,8 +249,12 @@ const CourseList = (props) => {
                 for (let i = 0; i < max - 1; i++) {
                     newOffsets[i + 1] = newOffsets[i] + (itemWidths[i] || 0);
                 }
-                //console.info(`settings offsets: ${newOffsets.join(',')}`)
+                if (level === 2) {
+                    console.info(`itemWidths: ${itemWidths.join(',')}`);
+                    console.info(`settings offsets: ${newOffsets.join(',')}`);
+                }
                 offsets.value = newOffsets;
+                doRerender(offsetsRerenderCounter + 1);
             }, 30);
         }
         const courseIndex = item.item;
@@ -271,6 +282,7 @@ const CourseList = (props) => {
     if (!scrollIndex || !isCurrentlyScrolling) {
         console.info(`scrollIndex or isCurrentlyScrolling null`)
     }
+    const level = props.level;
     const scrollHandler = useAnimatedScrollHandler({
         onScroll: (event) => {
             // TODO PERF might be optimized via binary search
@@ -289,14 +301,15 @@ const CourseList = (props) => {
         },
         onBeginDrag: () => {
             isCurrentlyScrolling.value = 2;
+            //console.info(`setting ${level} scrolling to ${2}`);
         },
         onEndDrag: () => {
             isCurrentlyScrolling.value = 1;
+            //console.info(`setting ${level} scrolling to ${1}`);
         },
     });
     // --- listening to scrollIndex changes outside of the component
     const scrollRef = props.scrollRef;
-    const level = props.level;
     useDerivedValue(() => {
         //console.info(`isCurrentlyScrolling.value ${isCurrentlyScrolling.value} ${scrollIndex.value}`);
         if (isCurrentlyScrolling.value === 0 && offsets.value.length > 0) {
