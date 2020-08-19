@@ -4,6 +4,7 @@ import Animated, {
     useAnimatedRef,
     useDerivedValue,
     useSharedValue,
+    withSpring,
 } from 'react-native-reanimated';
 import {View, Text, SafeAreaView, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import React, { useRef, useState, useCallback } from 'react';
@@ -69,9 +70,17 @@ export default function CoupledScrollViews(props) {
                 } else {
                     for (let otherLevel = 0; otherLevel < 3; otherLevel++) {
                         if (otherLevel < level) {
-                            scrollIndices[otherLevel].value = course.listIndex[otherLevel];
+                            scrollIndices[otherLevel].value = withSpring(course.listIndex[otherLevel], {
+                                damping: 20,
+                                mass: 1,
+                                stiffness: 100 + level * 20,
+                            });
                         } else if (otherLevel > level) {
-                            scrollIndices[otherLevel].value = course.listIndex[otherLevel] + course.nOfSiblings[otherLevel] * progress;
+                            scrollIndices[otherLevel].value = withSpring(course.listIndex[otherLevel] + course.nOfSiblings[otherLevel] * progress, {
+                                damping: 20,
+                                mass: 1,
+                                stiffness: 100 + level * 20,
+                            });
                         }
                     }
                 }
