@@ -19,7 +19,7 @@ export default function CoupledScrollViews(props) {
     const levelCourses = [];                       // TODO PERF: this should be memoized
     const levelYOffsets = [];
     const scrollIndices = [];             // tells us at which index the scroll boxes currently are - we use floats for indices, because the user might be between two indices
-    const isCurrentlyScrolling = [];     // this is used to decide which values to update from which values when they change
+    const isCurrentlyScrolling = [];      // this is used to decide which values to update from which values when they change. 2 = this level is currently actively being scrolled by the user. 1 = this level has been scrolled by the user, it remains active until another level gets value 2. 0 = this level is not currently being scrolled.
     for (let i = 0; i < NOF_LEVELS; i++) {
         if (i === 0) {
             levelCourses.push(getFirstLevelCourses(rootCourse.children.filter((x) => typeof x !== 'string')));
@@ -55,41 +55,28 @@ export default function CoupledScrollViews(props) {
     // --- here we do the actual coupling of the ScrollViews (CAR-179). This worklet is run whenever one of the scrollIndices or isCurrentlyScrolling values changes
     useDerivedValue(() => {
         //console.info('updated');
-        if (isCurrentlyScrolling[0].value === 1) {
-            const index = Math.floor(scrollIndices[0].value);
-            const progress = scrollIndices[0].value - index;
-            const course = levelCourses[0][index];
-            //console.info(`course.listIndex: ${course.listIndex}, siblings: ${course.nOfSiblings}`)
-            if (!course) {
-                console.info('course undefined');
-            } else {
-                scrollIndices[1].value = course.listIndex[1] + course.nOfSiblings[1] * progress;
-                scrollIndices[2].value = course.listIndex[2] + course.nOfSiblings[2] * progress;
-            }
-        } else if (isCurrentlyScrolling[1].value === 1) {
-            const index = Math.floor(scrollIndices[1].value);
-            const progress = scrollIndices[1].value - index;
-            const course = levelCourses[1][index];
-            //console.info(`course.listIndex: ${course.listIndex}, siblings: ${course.nOfSiblings}`)
-            if (!course) {
-                console.info('course undefined');
-            } else {
-                scrollIndices[0].value = course.listIndex[0]; // + course.nOfSiblings[0] * progress;
-                scrollIndices[2].value = course.listIndex[2] + course.nOfSiblings[2] * progress;
-            }
-        } else if (isCurrentlyScrolling[2].value === 1) {
-            const index = Math.floor(scrollIndices[2].value);
-            const progress = scrollIndices[2].value - index;
-            const course = levelCourses[2][index];
-            //console.info(`course.listIndex: ${course.listIndex}, siblings: ${course.nOfSiblings}`)
-            if (!course) {
-                console.info('course undefined');
-            } else {
-                scrollIndices[0].value = course.listIndex[0];
-                scrollIndices[1].value = course.listIndex[1];
+        const maxIsCurrentlyScrolling = Math.max(Math.max(isCurrentlyScrolling[0].value, isCurrentlyScrolling[1].value), isCurrentlyScrolling[2].value);
+        for (let level = 0; level < 3; level++) {
+            if (maxIsCurrentlyScrolling === 2 && isCurrentlyScrolling[level].value === 1) {
+                isCurrentlyScrolling[level].value = 0;
+            } else if (isCurrentlyScrolling[level].value > 0) {
+                const index = Math.floor(scrollIndices[level].value);
+                const progress = scrollIndices[level].value - index;
+                const course = levelCourses[level][index];
+                //console.info(`course.listIndex: ${course.listIndex}, siblings: ${course.nOfSiblings}`)
+                if (!course) {
+                    console.info('course undefined');
+                } else {
+                    for (let otherLevel = 0; otherLevel < 3; otherLevel++) {
+                        if (otherLevel < level) {
+                            scrollIndices[otherLevel].value = course.listIndex[otherLevel];
+                        } else if (otherLevel > level) {
+                            scrollIndices[otherLevel].value = course.listIndex[otherLevel] + course.nOfSiblings[otherLevel] * progress;
+                        }
+                    }
+                }
             }
         }
-        //scrollTo(aref, 0, scroll.value * 100, true);
     });
     const scrollRefs = [useAnimatedRef(null), useAnimatedRef(null), useAnimatedRef(null), useAnimatedRef(null)];
     const onCoursePress = useCallback((course) => {
@@ -281,11 +268,9 @@ const CourseList = (props) => {
             for (let i = 0; i < offsets.value.length; i++) {
                 if (offsets.value[i] > event.contentOffset.x) {
                     if (i === 0) {
-                        console.info('0')
                         scrollIndex.value = 0;
                     } else {
                         let value = i - 1 + (event.contentOffset.x - offsets.value[i - 1]) / (offsets.value[i] - offsets.value[i - 1]);
-                        console.info(value)
                         scrollIndex.value = value;
                     }
                     return;
@@ -294,10 +279,10 @@ const CourseList = (props) => {
             scrollIndex.value = offsets.value.length;
         },
         onBeginDrag: () => {
-            isCurrentlyScrolling.value = 1;
+            isCurrentlyScrolling.value = 2;
         },
         onEndDrag: () => {
-            isCurrentlyScrolling.value = 0;
+            isCurrentlyScrolling.value = 1;
         },
     });
     // --- listening to scrollIndex changes outside of the component
