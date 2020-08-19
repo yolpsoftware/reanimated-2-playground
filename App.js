@@ -55,21 +55,39 @@ export default function CoupledScrollViews(props) {
     // --- here we do the actual coupling of the ScrollViews (CAR-179). This worklet is run whenever one of the scrollIndices or isCurrentlyScrolling values changes
     useDerivedValue(() => {
         //console.info('updated');
-        if (isCurrentlyScrolling[0].value) {
-            //console.info(`useDerived ${scrollIndices[0].value}, ${scrollIndices[1].value}, ${scrollIndices[2].value}`);
+        if (isCurrentlyScrolling[0].value === 1) {
             const index = Math.floor(scrollIndices[0].value);
             const progress = scrollIndices[0].value - index;
             const course = levelCourses[0][index];
-            console.info(`course.listIndex: ${course.listIndex}, siblings: ${course.nOfSiblings}`)
+            //console.info(`course.listIndex: ${course.listIndex}, siblings: ${course.nOfSiblings}`)
             if (!course) {
                 console.info('course undefined');
             } else {
                 scrollIndices[1].value = course.listIndex[1] + course.nOfSiblings[1] * progress;
                 scrollIndices[2].value = course.listIndex[2] + course.nOfSiblings[2] * progress;
             }
-            //for (let i = 1; i < 4; i++) {
-            //    scrollIndices[i].setValue(course.nOfSiblings[i]
-            //}
+        } else if (isCurrentlyScrolling[1].value === 1) {
+            const index = Math.floor(scrollIndices[1].value);
+            const progress = scrollIndices[1].value - index;
+            const course = levelCourses[1][index];
+            //console.info(`course.listIndex: ${course.listIndex}, siblings: ${course.nOfSiblings}`)
+            if (!course) {
+                console.info('course undefined');
+            } else {
+                scrollIndices[0].value = course.listIndex[0]; // + course.nOfSiblings[0] * progress;
+                scrollIndices[2].value = course.listIndex[2] + course.nOfSiblings[2] * progress;
+            }
+        } else if (isCurrentlyScrolling[2].value === 1) {
+            const index = Math.floor(scrollIndices[2].value);
+            const progress = scrollIndices[2].value - index;
+            const course = levelCourses[2][index];
+            //console.info(`course.listIndex: ${course.listIndex}, siblings: ${course.nOfSiblings}`)
+            if (!course) {
+                console.info('course undefined');
+            } else {
+                scrollIndices[0].value = course.listIndex[0];
+                scrollIndices[1].value = course.listIndex[1];
+            }
         }
         //scrollTo(aref, 0, scroll.value * 100, true);
     });
@@ -127,16 +145,6 @@ export default function CoupledScrollViews(props) {
             course: course,
         });
     }, [selectedCourse]);
-    /*const level1Scroll = new Animated.Value(100000 as number);
-    const level1ScrollDiff = diff(level1Scroll);
-    const level1Offset = new Animated.Value(100000 as number);
-    useCode(() => [
-        set(level1Offset, sub(level1Offset, level1ScrollDiff)),
-        // debug(`diff: `, level1ScrollDiff),
-        // debug(`offs: `, level1Offset),
-    ], [level1Offset, level1Offset]);
-    const level1Event = Animated.event([{ nativeEvent: { contentOffset: { x: level1Scroll } } }], { useNativeDriver: true });
-    */
     return (<View style={styles.container}>
         <SafeAreaView></SafeAreaView>
         <View style={styles.treeContainer}>
