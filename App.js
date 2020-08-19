@@ -67,20 +67,21 @@ export default function CoupledScrollViews(props) {
                 const course = levelCourses[level][index];
                 //console.info(`course.listIndex: ${course.listIndex}, siblings: ${course.nOfSiblings}`)
                 if (!course) {
-                    console.info('course undefined');
+                    console.info(`course undefined, level ${level}, index ${index}`);
                 } else {
                     for (let otherLevel = 0; otherLevel < 3; otherLevel++) {
                         if (otherLevel < level) {
+                            //if (otherLevel === 0) { console.log(`level ${level} setting (4) to ${course.listIndex[otherLevel]}`)}
                             scrollIndices[otherLevel].value = withSpring(course.listIndex[otherLevel], {
-                                damping: 20,
+                                damping: 30,
                                 mass: 1,
-                                stiffness: 150 + level * 10,
+                                stiffness: 200 + level * 10,
                             });
                         } else if (otherLevel > level) {
                             scrollIndices[otherLevel].value = withSpring(course.listIndex[otherLevel] + course.nOfSiblings[otherLevel] * progress, {
-                                damping: 20,
+                                damping: 30,
                                 mass: 1,
-                                stiffness: 150 + level * 10,
+                                stiffness: 200 + level * 10,
                             });
                         }
                     }
@@ -217,7 +218,6 @@ const CourseList = (props) => {
     if (props.level === 2) {
         console.info(`creating new itemWidths array for level ${level}`);
     }
-    let debouncer = null;
 
     const renderCourseCb = (item) => {
         if (item.item.index == null) {
@@ -229,33 +229,31 @@ const CourseList = (props) => {
             if (itemWidths[item.index] === width) {
                 return;
             }
+            // we previously had a debouncer here, to avoid excessive re-renders, but that didn't work great
             const newItemWidths = [...itemWidths];
             newItemWidths[item.index] = width;
             setItemWidths(newItemWidths);
-            clearTimeout(debouncer);
-            debouncer = setTimeout(() => {
-                //const newOffsets = [...offsets.value];
-                const newOffsets = [];
-                for (let i = 0; i < offsets.value.length; i++) {
-                    newOffsets[i] = offsets.value[i];
+            //const newOffsets = [...offsets.value];
+            const newOffsets = [];
+            for (let i = 0; i < offsets.value.length; i++) {
+                newOffsets[i] = offsets.value[i];
+            }
+            //console.info(`offsets: ${newOffsets.join(',')}`)
+            const max = Math.max(itemWidths.length + 1, newOffsets.length);
+            for (let i = 0; i < max; i++) {
+                if (newOffsets[i] == null) {
+                    newOffsets[i] = 0;
                 }
-                //console.info(`offsets: ${newOffsets.join(',')}`)
-                const max = Math.max(itemWidths.length + 1, newOffsets.length);
-                for (let i = 0; i < max; i++) {
-                    if (newOffsets[i] == null) {
-                        newOffsets[i] = 0;
-                    }
-                }
-                for (let i = 0; i < max - 1; i++) {
-                    newOffsets[i + 1] = newOffsets[i] + (itemWidths[i] || 0);
-                }
-                if (level === 2) {
-                    console.info(`itemWidths: ${itemWidths.join(',')}`);
-                    console.info(`settings offsets: ${newOffsets.join(',')}`);
-                }
-                offsets.value = newOffsets;
-                doRerender(offsetsRerenderCounter + 1);
-            }, 30);
+            }
+            for (let i = 0; i < max - 1; i++) {
+                newOffsets[i + 1] = newOffsets[i] + (itemWidths[i] || 0);
+            }
+            //if (level === 2) {
+                console.info(`${level} itemWidths: ${itemWidths.join(',')}`);
+                console.info(`${level} setting offsets: ${newOffsets.join(',')}`);
+            //}
+            offsets.value = newOffsets;
+            doRerender(offsetsRerenderCounter + 1);
         }
         const courseIndex = item.item;
         return (
@@ -285,19 +283,26 @@ const CourseList = (props) => {
     const level = props.level;
     const scrollHandler = useAnimatedScrollHandler({
         onScroll: (event) => {
+            if (isCurrentlyScrolling.value === 0) {
+                return;
+            }
+            const log = str => {} //{ console.log(str) };
             // TODO PERF might be optimized via binary search
             for (let i = 0; i < offsets.value.length; i++) {
-                if (offsets.value[i] > event.contentOffset.x) {
+                if (offsets.value[i] >= event.contentOffset.x) {
                     if (i === 0) {
                         scrollIndex.value = 0;
+                        log(`level ${level} setting (1) to 0`)
                     } else {
                         let value = i - 1 + (event.contentOffset.x - offsets.value[i - 1]) / (offsets.value[i] - offsets.value[i - 1]);
                         scrollIndex.value = value;
+                        log(`level ${level} setting (2) to ${value} (${offsets.value[i]}, ${event.contentOffset.x})`)
                     }
                     return;
                 }
             }
             scrollIndex.value = offsets.value.length;
+            log(`level ${level} setting (3) to ${offsets.value.length}`);
         },
         onBeginDrag: () => {
             isCurrentlyScrolling.value = 2;
