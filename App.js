@@ -46,6 +46,7 @@ export default function CoupledScrollViews(props) {
                 if (isMatch) {
                     for (let k = course.listIndex.length; k < lowestLevelCourse.listIndex.length; k++) {
                         course.listIndex[k] = lowestLevelCourse.listIndex[k];
+                        course.nOfSiblings[k] = lowestLevelCourse.nOfSiblings[k];
                     }
                 }
             }
@@ -54,22 +55,22 @@ export default function CoupledScrollViews(props) {
     // --- here we do the actual coupling of the ScrollViews (CAR-179). This worklet is run whenever one of the scrollIndices or isCurrentlyScrolling values changes
     useDerivedValue(() => {
         //console.info('updated');
-        //if (isCurrentlyScrolling[0].value) {
+        if (isCurrentlyScrolling[0].value) {
             //console.info(`useDerived ${scrollIndices[0].value}, ${scrollIndices[1].value}, ${scrollIndices[2].value}`);
             const index = Math.floor(scrollIndices[0].value);
             const progress = scrollIndices[0].value - index;
             const course = levelCourses[0][index];
+            console.info(`course.listIndex: ${course.listIndex}, siblings: ${course.nOfSiblings}`)
             if (!course) {
                 console.info('course undefined');
             } else {
-                scrollIndices[1].value = progress; //scrollIndices[0].value; // / course.nOfSiblings[1];
-                scrollIndices[2].value = progress; //scrollIndices[0].value;
-                //console.info(`progress: ${progress}`)
+                scrollIndices[1].value = course.listIndex[1] + course.nOfSiblings[1] * progress;
+                scrollIndices[2].value = course.listIndex[2] + course.nOfSiblings[2] * progress;
             }
             //for (let i = 1; i < 4; i++) {
             //    scrollIndices[i].setValue(course.nOfSiblings[i]
             //}
-        //}
+        }
         //scrollTo(aref, 0, scroll.value * 100, true);
     });
     const scrollRefs = [useAnimatedRef(null), useAnimatedRef(null), useAnimatedRef(null), useAnimatedRef(null)];
