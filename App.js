@@ -436,366 +436,1606 @@ const styles = StyleSheet.create({
 });
 
 const rootCourse =
-    {
-     "id": "root",
-     "title": {
-      "en": "root"
-     },
-     "canLearn": false,
-     "children": [
-      "MOST_VIEWED",
-      {
-       "id": "ph",
-       "title": {
-        "de": "Philosophien?",
-        "en": "Humanities"
-       },
-       "children": [
-        {
-         "id": "ph-philosophy",
-         "title": {
-          "de": "Philosophie",
-          "en": "Philosophy"
-         },
-         "children": [
-          {
-           "id": "ph-philosophy-philosophers",
-           "title": {
-            "de": "Philosophen",
-            "en": "Philosophers"
-           }
-          },
-          {
-           "id": "ph-philosophy-branches",
-           "title": {
-            "de": "Gebiete der Philosophie",
-            "en": "Branches of Philosophy"
-           }
-          },
-          {
-           "id": "ph-philosophy-concepts",
-           "title": {
-            "de": "Philosophische Begriffe",
-            "en": "Philosophical Concepts"
-           }
-          }
-         ]
-        },
-        {
-         "id": "ph-linguistics",
-         "title": {
-          "de": "Linguistik",
-          "en": "Linguistics"
-         },
-         "children": [
-          {
-           "id": "ph-linguistics-linguists",
-           "title": {
-            "de": "Linguistiker",
-            "en": "Linguists"
-           }
-          },
-          {
-           "id": "ph-linguistics-branches",
-           "title": {
-            "de": "Gebiete der Linguistik",
-            "en": "Branches of Linguistics"
-           }
-          },
-          {
-           "id": "ph-linguistics-concepts",
-           "title": {
-            "de": "Linguistische Begriffe",
-            "en": "Linguistical Concepts"
-           }
-          }
-         ]
-        },
-        {
-         "id": "ph-religion",
-         "title": {
-          "de": "Religion",
-          "en": "Religion"
-         }
-        },
-        {
-         "id": "ph-history",
-         "title": {
-          "de": "Geschichte & Politik",
-          "en": "History & Politics"
-         },
-         "children": [
-          {
-           "id": "ph-history-historians",
-           "title": {
-            "de": "Historiker",
-            "en": "Historians"
-           }
-          },
-          {
-           "id": "ph-history-wars",
-           "title": {
-            "de": "Kriege der Welt",
-            "en": "Wars of the World"
-           }
-          },
-          {
-           "id": "ph-history-region",
-           "title": {
-            "de": "Geschichte nach Ländern",
-            "en": "History by Country"
-           },
-           "canLearn": false,
-           "children": [
-            {
-             "id": "ph-history-region-de",
-             "title": {
-              "de": "Geschichte Deutschlands",
-              "en": "German History"
-             },
-             "children": [
-              {
-               "id": "ph-history-region-de-wars",
-               "title": {
-                "de": "Kriege Deutschlands",
-                "en": "Wars of Germany"
-               },
-               "defs": [
-                "ph-history-region-de && ph-history-wars"
-               ]
-              }
-             ]
-            },
-            "ph-history-region-us"
-           ],
-           "image": "https://images.unsplash.com/photo-1554623515-3b2f224b92f2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
-          },
-          "ph-history-elections",
-          "ph-history-referendums",
-          {
-           "id": "ph-history-politicians",
-           "title": {
-            "de": "Politiker*innen",
-            "en": "Politicians"
-           },
-           "children": [
-            {
-             "id": "ph-history-politicians-headsofgov",
-             "title": {
-              "de": "Regierungschefs",
-              "en": "Heads of Government"
-             },
-             "crossRelations": [
-              "country",
-              "continent"
-             ],
-             "image": "https://images.unsplash.com/photo-1548337357-2910deeae339?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
-            },
-            {
-             "id": "ph-history-politicians-headsofstate",
-             "title": {
-              "de": "Staatsoberhäupter",
-              "en": "Heads of State"
-             },
-             "children": [
-              {
-               "id": "ph-history-politicians-headsofstate-country#us",
-               "title": {
-                "de": "US-Präsidenten",
-                "en": "Presidents of the United States"
-               },
-               "image": "https://images.unsplash.com/photo-1557760401-40a9ec55f25c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
-              }
-             ],
-             "crossRelations": [
-              "country",
-              "continent"
-             ],
-             "image": "https://images.unsplash.com/photo-1548337357-2910deeae339?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
-            }
-           ],
-           "crossRelations": [
-            "country",
-            "continent"
-           ],
-           "image": "https://images.unsplash.com/photo-1548337357-2910deeae339?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
-          }
-         ],
-         "defs": "CHILDREN",
-         "image": "https://images.unsplash.com/photo-1461360370896-922624d12aa1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
-        }
-       ],
-       "image": "https://images.unsplash.com/photo-1502700807168-484a3e7889d0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
+{
+    "id": "root",
+    "title": {
+     "en": "root"
+    },
+    "canLearn": false,
+    "children": [
+     "MOST_VIEWED",
+     {
+      "id": "ph",
+      "title": {
+       "de": "Philosophien?",
+       "en": "Humanities"
       },
-      {
-       "id": "art",
-       "title": {
-        "de": "Kunst & Film",
-        "en": "Arts"
+      "children": [
+       {
+        "id": "ph-philosophy",
+        "title": {
+         "de": "Philosophie",
+         "en": "Philosophy"
+        },
+        "children": [
+         {
+          "id": "ph-philosophy-philosophers",
+          "title": {
+           "de": "Philosophen",
+           "en": "Philosophers"
+          }
+         },
+         {
+          "id": "ph-philosophy-branches",
+          "title": {
+           "de": "Gebiete der Philosophie",
+           "en": "Branches of Philosophy"
+          }
+         },
+         {
+          "id": "ph-philosophy-concepts",
+          "title": {
+           "de": "Philosophische Begriffe",
+           "en": "Philosophical Concepts"
+          }
+         }
+        ]
        },
-       "children": [
-        {
-         "id": "art-literature",
-         "title": {
-          "de": "Literatur",
-          "en": "Literature"
-         },
-         "children": [
-          {
-           "id": "art-literature-authors",
-           "title": {
-            "de": "Autoren*",
-            "en": "Authors"
-           }
-          },
-          {
-           "id": "art-literature-fiction",
-           "title": {
-            "de": "Fiktion",
-            "en": "Fiction"
-           },
-           "children": [
-            {
-             "id": "art-literature-fiction-authors",
-             "title": {
-              "de": "Autoren*",
-              "en": "Authors"
-             }
-            }
-           ]
-          }
-         ]
+       {
+        "id": "ph-linguistics",
+        "title": {
+         "de": "Linguistik",
+         "en": "Linguistics"
         },
-        {
-         "id": "art-film",
-         "title": {
-          "de": "Film",
-          "en": "Film"
-         },
-         "children": [
-          {
-           "id": "art-film-directors",
-           "title": {
-            "de": "Regisseure",
-            "en": "Directors"
-           }
-          },
-          {
-           "id": "art-film-actors",
-           "title": {
-            "de": "Schauspieler*",
-            "en": "Actors & Actresses"
-           }
-          },
-          {
-           "id": "art-film-producers",
-           "title": {
-            "de": "Produzent*innen",
-            "en": "Producers"
-           }
+        "children": [
+         {
+          "id": "ph-linguistics-linguists",
+          "title": {
+           "de": "Linguistiker",
+           "en": "Linguists"
           }
-         ]
-        },
-        {
-         "id": "art-music",
-         "title": {
-          "de": "Musik",
-          "en": "Music"
          },
-         "children": [
-          {
-           "id": "art-music-musicians",
-           "title": {
-            "de": "Musiker*",
-            "en": "Musicians"
-           }
-          },
-          {
-           "id": "art-music-singers",
-           "title": {
-            "de": "Sänger*innen",
-            "en": "Singers"
-           }
-          },
-          {
-           "id": "art-music-composers",
-           "title": {
-            "de": "Komponist*innen",
-            "en": "Composers"
-           }
-          },
-          {
-           "id": "art-music-Conductors",
-           "title": {
-            "de": "Dirigenten*",
-            "en": "Conductors"
-           }
+         {
+          "id": "ph-linguistics-branches",
+          "title": {
+           "de": "Gebiete der Linguistik",
+           "en": "Branches of Linguistics"
           }
-         ]
-        },
-        {
-         "id": "art-painting",
-         "title": {
-          "de": "Malerei",
-          "en": "Painting"
          },
-         "children": [
-          {
-           "id": "art-painting-painters",
-           "title": {
-            "de": "Maler*",
-            "en": "Painters"
-           }
-          },
-          {
-           "id": "art-painting-paintings",
-           "title": {
-            "de": "Gemälde",
-            "en": "Paintings"
-           }
+         {
+          "id": "ph-linguistics-concepts",
+          "title": {
+           "de": "Linguistische Begriffe",
+           "en": "Linguistical Concepts"
           }
-         ]
-        },
-        {
-         "id": "art-photography",
-         "title": {
-          "de": "Fotografie",
-          "en": "Photography"
-         },
-         "children": [
-          {
-           "id": "art-photography-photographers",
-           "title": {
-            "de": "Fotograf*innen",
-            "en": "Photographers"
-           }
-          },
-          {
-           "id": "art-photography-photographs",
-           "title": {
-            "de": "Fotos",
-            "en": "Photos"
-           }
-          }
-         ]
-        },
-        {
-         "id": "art-musical",
-         "title": {
-          "de": "Mucicals",
-          "en": "Musicals"
-         },
-         "children": [
-          {
-           "id": "art-musicals-actors",
-           "title": {
-            "de": "Schauspieler*",
-            "en": "Actors & Actresses"
-           }
-          }
-         ]
+         }
+        ]
+       },
+       {
+        "id": "ph-religion",
+        "title": {
+         "de": "Religion",
+         "en": "Religion"
         }
-       ],
-       "image": "https://images.unsplash.com/photo-1520856990214-7a9e59dd5ff7?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
-      }]
-    };
+       },
+       {
+        "id": "ph-history",
+        "title": {
+         "de": "Geschichte & Politik",
+         "en": "History & Politics"
+        },
+        "children": [
+         {
+          "id": "ph-history-historians",
+          "title": {
+           "de": "Historiker",
+           "en": "Historians"
+          }
+         },
+         {
+          "id": "ph-history-wars",
+          "title": {
+           "de": "Kriege der Welt",
+           "en": "Wars of the World"
+          }
+         },
+         {
+          "id": "ph-history-region",
+          "title": {
+           "de": "Geschichte nach Ländern",
+           "en": "History by Country"
+          },
+          "canLearn": false,
+          "children": [
+           {
+            "id": "ph-history-region-de",
+            "title": {
+             "de": "Geschichte Deutschlands",
+             "en": "German History"
+            },
+            "children": [
+             {
+              "id": "ph-history-region-de-wars",
+              "title": {
+               "de": "Kriege Deutschlands",
+               "en": "Wars of Germany"
+              },
+              "defs": [
+               "ph-history-region-de && ph-history-wars"
+              ]
+             }
+            ]
+           },
+           "ph-history-region-us"
+          ],
+          "image": "https://images.unsplash.com/photo-1554623515-3b2f224b92f2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
+         },
+         "ph-history-elections",
+         "ph-history-referendums",
+         {
+          "id": "ph-history-politicians",
+          "title": {
+           "de": "Politiker*innen",
+           "en": "Politicians"
+          },
+          "children": [
+           {
+            "id": "ph-history-politicians-headsofgov",
+            "title": {
+             "de": "Regierungschefs",
+             "en": "Heads of Government"
+            },
+            "crossRelations": [
+             "country",
+             "continent"
+            ],
+            "image": "https://images.unsplash.com/photo-1548337357-2910deeae339?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
+           },
+           {
+            "id": "ph-history-politicians-headsofstate",
+            "title": {
+             "de": "Staatsoberhäupter",
+             "en": "Heads of State"
+            },
+            "children": [
+             {
+              "id": "ph-history-politicians-headsofstate-country#us",
+              "title": {
+               "de": "US-Präsidenten",
+               "en": "Presidents of the United States"
+              },
+              "image": "https://images.unsplash.com/photo-1557760401-40a9ec55f25c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
+             }
+            ],
+            "crossRelations": [
+             "country",
+             "continent"
+            ],
+            "image": "https://images.unsplash.com/photo-1548337357-2910deeae339?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
+           }
+          ],
+          "crossRelations": [
+           "country",
+           "continent"
+          ],
+          "image": "https://images.unsplash.com/photo-1548337357-2910deeae339?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
+         }
+        ],
+        "defs": "CHILDREN",
+        "image": "https://images.unsplash.com/photo-1461360370896-922624d12aa1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
+       }
+      ],
+      "image": "https://images.unsplash.com/photo-1502700807168-484a3e7889d0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
+     },
+     {
+      "id": "art",
+      "title": {
+       "de": "Kunst & Film",
+       "en": "Arts"
+      },
+      "children": [
+       {
+        "id": "art-literature",
+        "title": {
+         "de": "Literatur",
+         "en": "Literature"
+        },
+        "children": [
+         {
+          "id": "art-literature-authors",
+          "title": {
+           "de": "Autoren*",
+           "en": "Authors"
+          }
+         },
+         {
+          "id": "art-literature-fiction",
+          "title": {
+           "de": "Fiktion",
+           "en": "Fiction"
+          },
+          "children": [
+           {
+            "id": "art-literature-fiction-authors",
+            "title": {
+             "de": "Autoren*",
+             "en": "Authors"
+            }
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "id": "art-film",
+        "title": {
+         "de": "Film",
+         "en": "Film"
+        },
+        "children": [
+         {
+          "id": "art-film-directors",
+          "title": {
+           "de": "Regisseure",
+           "en": "Directors"
+          }
+         },
+         {
+          "id": "art-film-actors",
+          "title": {
+           "de": "Schauspieler*",
+           "en": "Actors & Actresses"
+          }
+         },
+         {
+          "id": "art-film-producers",
+          "title": {
+           "de": "Produzent*innen",
+           "en": "Producers"
+          }
+         }
+        ]
+       },
+       {
+        "id": "art-music",
+        "title": {
+         "de": "Musik",
+         "en": "Music"
+        },
+        "children": [
+         {
+          "id": "art-music-musicians",
+          "title": {
+           "de": "Musiker*",
+           "en": "Musicians"
+          }
+         },
+         {
+          "id": "art-music-singers",
+          "title": {
+           "de": "Sänger*innen",
+           "en": "Singers"
+          }
+         },
+         {
+          "id": "art-music-composers",
+          "title": {
+           "de": "Komponist*innen",
+           "en": "Composers"
+          }
+         },
+         {
+          "id": "art-music-Conductors",
+          "title": {
+           "de": "Dirigenten*",
+           "en": "Conductors"
+          }
+         }
+        ]
+       },
+       {
+        "id": "art-painting",
+        "title": {
+         "de": "Malerei",
+         "en": "Painting"
+        },
+        "children": [
+         {
+          "id": "art-painting-painters",
+          "title": {
+           "de": "Maler*",
+           "en": "Painters"
+          }
+         },
+         {
+          "id": "art-painting-paintings",
+          "title": {
+           "de": "Gemälde",
+           "en": "Paintings"
+          }
+         }
+        ]
+       },
+       {
+        "id": "art-photography",
+        "title": {
+         "de": "Fotografie",
+         "en": "Photography"
+        },
+        "children": [
+         {
+          "id": "art-photography-photographers",
+          "title": {
+           "de": "Fotograf*innen",
+           "en": "Photographers"
+          }
+         },
+         {
+          "id": "art-photography-photographs",
+          "title": {
+           "de": "Fotos",
+           "en": "Photos"
+          }
+         }
+        ]
+       },
+       {
+        "id": "art-musical",
+        "title": {
+         "de": "Mucicals",
+         "en": "Musicals"
+        },
+        "children": [
+         {
+          "id": "art-musicals-actors",
+          "title": {
+           "de": "Schauspieler*",
+           "en": "Actors & Actresses"
+          }
+         }
+        ]
+       }
+      ],
+      "image": "https://images.unsplash.com/photo-1520856990214-7a9e59dd5ff7?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+     },
+     {
+      "id": "lang",
+      "title": {
+       "de": "Sprachen",
+       "en": "Languages"
+      },
+      "canLearn": false,
+      "children": [
+       "lang-en",
+       "lang-es",
+       "lang-fr",
+       {
+        "id": "lang-zh",
+        "title": {
+         "de": "Chinesisch",
+         "en": "Chinese"
+        },
+        "children": [
+         "lang-zh-alphabet",
+         "lang-zh-numbers",
+         {
+          "id": "lang-zh-words",
+          "title": {
+           "de": "Chinesisches Vokabular",
+           "en": "Chinese Vocabulary"
+          }
+         },
+         {
+          "id": "lang-zh-sentences",
+          "title": {
+           "de": "Chinesische Sätze",
+           "en": "Chinese Sentences"
+          }
+         }
+        ],
+        "image": null
+       },
+       {
+        "id": "lang-it",
+        "title": {
+         "de": "Italienisch",
+         "en": "Italian"
+        },
+        "children": [
+         "lang-it-alphabet",
+         "lang-it-numbers",
+         {
+          "id": "lang-it-words",
+          "title": {
+           "de": "Italienisches Vokabular",
+           "en": "Italian Vocabulary"
+          },
+          "image": "https://images.unsplash.com/photo-1451226428352-cf66bf8a0317?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
+         },
+         {
+          "id": "lang-it-sentences",
+          "title": {
+           "de": "Italienische Sätze",
+           "en": "Italian Sentences"
+          },
+          "image": "https://images.unsplash.com/photo-1475154404624-07909433bbfb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+         }
+        ],
+        "defs": "CHILDREN",
+        "image": "https://images.unsplash.com/photo-1498579150354-977475b7ea0b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
+       },
+       {
+        "id": "lang-sign",
+        "title": {
+         "de": "Gebärdensprachen",
+         "en": "Sign Languages"
+        },
+        "canLearn": false,
+        "children": [
+         {
+          "id": "lang-sign-de",
+          "title": {
+           "de": "Deutsche Gebärdensprachen",
+           "en": "German Sign Languages"
+          },
+          "canLearn": false,
+          "children": [
+           {
+            "id": "lang-sign-de-ch",
+            "title": {
+             "de": "Deutschschweizer Gebärdensprache",
+             "en": "Swiss-German Sign Language"
+            },
+            "children": [
+             {
+              "id": "lang-sign-de-ch-words",
+              "title": {
+               "de": "Deutschschweizer Gebärdensprache - Wörter",
+               "en": "Swiss-German Sign Language - Words"
+              },
+              "image": "https://images.unsplash.com/photo-1514970746-d4a465d514d0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
+             },
+             {
+              "id": "lang-sign-de-ch-sentences",
+              "title": {
+               "de": "Deutschschweizer Gebärdensprache - Sätze",
+               "en": "Swiss-German Sign Language - Sentence"
+              },
+              "image": "https://images.unsplash.com/photo-1514970746-d4a465d514d0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
+             }
+            ],
+            "defs": "CHILDREN",
+            "image": "https://images.unsplash.com/photo-1514970746-d4a465d514d0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
+           }
+          ],
+          "image": "https://images.unsplash.com/photo-1534313314376-a72289b6181e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
+         }
+        ],
+        "image": "https://images.unsplash.com/photo-1524964056700-f5738231ad5e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
+       },
+       "lang-de",
+       "lang-pt",
+       "lang-jp"
+      ],
+      "image": "https://images.unsplash.com/photo-1535483102974-fa1e64d0ca86?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
+     },
+     {
+      "id": "sc",
+      "title": {
+       "de": "Naturwissenschaften",
+       "en": "Natural Sciences"
+      },
+      "canLearn": false,
+      "children": [
+       {
+        "id": "sc-physics",
+        "title": {
+         "de": "Physik",
+         "en": "Physics"
+        },
+        "children": [
+         {
+          "id": "sc-physics-physicists",
+          "title": {
+           "de": "Physiker*innen",
+           "en": "Physicists"
+          }
+         },
+         {
+          "id": "sc-physics-theories",
+          "title": {
+           "de": "Theorien",
+           "en": "Theories"
+          }
+         },
+         {
+          "id": "sc-physics-laws",
+          "title": {
+           "de": "Gesetze",
+           "en": "Laws"
+          }
+         },
+         {
+          "id": "sc-physics-units",
+          "title": {
+           "de": "Einheiten",
+           "en": "Units"
+          }
+         },
+         {
+          "id": "sc-physics-branches",
+          "title": {
+           "de": "Gebiete der Physik",
+           "en": "Branches of Physics"
+          }
+         },
+         {
+          "id": "sc-physics-concepts",
+          "title": {
+           "de": "Physikalische Begriffe",
+           "en": "Concepts of Physics"
+          }
+         }
+        ],
+        "def": "CHILDREN"
+       },
+       {
+        "id": "sc-chem",
+        "title": {
+         "de": "Chemie",
+         "en": "Chemistry"
+        },
+        "children": [
+         {
+          "id": "sc-chem-chemists",
+          "title": {
+           "de": "Chemiker*",
+           "en": "Chemists"
+          }
+         },
+         {
+          "id": "sc-chem-functionalgroups",
+          "title": {
+           "de": "Funktionale Gruppen",
+           "en": "Functional Groups"
+          }
+         },
+         {
+          "id": "sc-chem-substances",
+          "title": {
+           "de": "Substanzen",
+           "en": "Substances"
+          },
+          "children": [
+           {
+            "id": "sc-chem-substances-ester",
+            "title": {
+             "de": "Ester",
+             "en": "Ester"
+            }
+           },
+           {
+            "id": "sc-chem-substances-polyamids",
+            "title": {
+             "de": "Polyamine",
+             "en": "Polyamids"
+            }
+           }
+          ]
+         },
+         {
+          "id": "sc-chem-classes",
+          "title": {
+           "de": "Strukturklassen",
+           "en": "Structural Classes"
+          }
+         },
+         {
+          "id": "sc-chem-reactions",
+          "title": {
+           "de": "Reaktionen",
+           "en": "Reactions"
+          }
+         },
+         {
+          "id": "sc-chem-branches",
+          "title": {
+           "de": "Gebiete der Chemie",
+           "en": "Branches of Chemistry"
+          }
+         },
+         {
+          "id": "sc-chem-concepts",
+          "title": {
+           "de": "Begriffe der Chemie",
+           "en": "Concepts of Chemistry"
+          }
+         }
+        ],
+        "def": "CHILDREN"
+       },
+       {
+        "id": "sc-biology",
+        "title": {
+         "de": "Biologie",
+         "en": "Biology"
+        },
+        "children": [
+         {
+          "id": "sc-biology-biologists",
+          "title": {
+           "de": "Biolog*en",
+           "en": "Biologists"
+          }
+         },
+         {
+          "id": "sc-biology-substances",
+          "title": {
+           "de": "Substanzen",
+           "en": "Substances"
+          },
+          "children": [
+           {
+            "id": "sc-biology-substances-proteins",
+            "title": {
+             "de": "Proteine",
+             "en": "Proteins"
+            }
+           },
+           {
+            "id": "sc-biology-substances-neurotransmitters",
+            "title": {
+             "de": "Neurotransmitter",
+             "en": "Neurotransmitters"
+            }
+           },
+           {
+            "id": "sc-biology-substances-enzymes",
+            "title": {
+             "de": "Enzyme",
+             "en": "Enzymes"
+            }
+           },
+           {
+            "id": "sc-biology-substances-hormones",
+            "title": {
+             "de": "Hormone",
+             "en": "Hormones"
+            }
+           }
+          ]
+         },
+         {
+          "id": "sc-biology-taxons",
+          "title": {
+           "de": "Taxonomie",
+           "en": "Taxonomy"
+          },
+          "children": [
+           {
+            "id": "sc-biology-taxons-species",
+            "title": {
+             "de": "Spezies",
+             "en": "Species"
+            }
+           },
+           {
+            "id": "sc-biology-taxons-genera",
+            "title": {
+             "de": "Gattungen",
+             "en": "Genera"
+            }
+           },
+           {
+            "id": "sc-biology-taxons-families",
+            "title": {
+             "de": "Familien",
+             "en": "Families"
+            }
+           },
+           {
+            "id": "sc-biology-taxons-orders",
+            "title": {
+             "de": "Ordnungen",
+             "en": "Orders"
+            }
+           },
+           {
+            "id": "sc-biology-taxons-classes",
+            "title": {
+             "de": "Klassen",
+             "en": "Classes"
+            }
+           },
+           {
+            "id": "sc-biology-taxons-phyla",
+            "title": {
+             "de": "Stämme",
+             "en": "Phyla"
+            }
+           },
+           {
+            "id": "sc-biology-taxons-kingdoms",
+            "title": {
+             "de": "Reiche",
+             "en": "Kingdoms"
+            }
+           }
+          ]
+         },
+         {
+          "id": "sc-biology-animals",
+          "title": {
+           "de": "Tiere",
+           "en": "Animals"
+          },
+          "children": [
+           {
+            "id": "sc-biology-mammals",
+            "title": {
+             "de": "Säugetiere",
+             "en": "Mammals"
+            },
+            "children": [
+             {
+              "id": "sc-biology-mammals-ursidae",
+              "title": {
+               "de": "Bären",
+               "en": "Bears"
+              },
+              "defs": [
+               "sc-biology-mammals-ursidae && sc-biology-taxons-species"
+              ]
+             },
+             {
+              "id": "sc-biology-mammals-felidae",
+              "title": {
+               "de": "Katzen",
+               "en": "Cats"
+              },
+              "defs": [
+               "sc-biology-mammals-felidae && sc-biology-taxons-species"
+              ]
+             },
+             {
+              "id": "sc-biology-mammals-carnivora",
+              "title": {
+               "de": "Raubtiere",
+               "en": "Carnivora"
+              },
+              "defs": [
+               "sc-biology-mammals-carnivora && sc-biology-taxons-species"
+              ]
+             },
+             {
+              "id": "sc-biology-mammals-canidae",
+              "title": {
+               "de": "Hunde",
+               "en": "Canidae"
+              },
+              "defs": [
+               "sc-biology-mammals-canidae && sc-biology-taxons-species"
+              ]
+             }
+            ],
+            "defs": [
+             "sc-biology-mammals && sc-biology-taxons-species"
+            ]
+           },
+           {
+            "id": "sc-biology-cetacea",
+            "title": {
+             "de": "Wale & Delfine",
+             "en": "Whales & Dolphins"
+            },
+            "defs": [
+             "sc-biology-cetacea && sc-biology-taxons-species"
+            ]
+           },
+           {
+            "id": "sc-biology-spiders",
+            "title": {
+             "de": "Spinnen",
+             "en": "Spiders"
+            },
+            "defs": [
+             "sc-biology-spiders && sc-biology-taxons-species"
+            ]
+           },
+           {
+            "id": "sc-biology-insects",
+            "title": {
+             "de": "Insekten",
+             "en": "Insects"
+            },
+            "defs": [
+             "sc-biology-insects && sc-biology-taxons-species"
+            ]
+           },
+           {
+            "id": "sc-biology-birds",
+            "title": {
+             "de": "Vögel",
+             "en": "Birds"
+            },
+            "children": [
+             {
+              "id": "sc-biology-birds-accipitriformes",
+              "title": {
+               "de": "Falken & Adler",
+               "en": "Hawks & Eagles"
+              },
+              "defs": [
+               "sc-biology-birds-accipitriformes && sc-biology-taxons-species"
+              ]
+             }
+            ],
+            "defs": [
+             "sc-biology-birds && sc-biology-taxons-species"
+            ]
+           },
+           {
+            "id": "sc-biology-dinosaurs",
+            "title": {
+             "de": "Dinosaurier",
+             "en": "Dinosaurs"
+            },
+            "defs": [
+             "sc-biology-dinosaurs && sc-biology-taxons-species"
+            ]
+           },
+           {
+            "id": "sc-biology-sharks",
+            "title": {
+             "de": "Haifische",
+             "en": "Sharks"
+            },
+            "defs": [
+             "sc-biology-sharks && sc-biology-taxons-species"
+            ]
+           },
+           {
+            "id": "sc-biology-fish",
+            "title": {
+             "de": "Fische",
+             "en": "Fishes"
+            },
+            "children": [
+             {
+              "id": "sc-biology-fish-teleostei",
+              "title": {
+               "de": null,
+               "en": null
+              },
+              "defs": [
+               "sc-biology-fish-teleostei && sc-biology-taxons-species"
+              ]
+             },
+             {
+              "id": "sc-biology-fish-chondrichthyes",
+              "title": {
+               "de": null,
+               "en": null
+              },
+              "defs": [
+               "sc-biology-fish-chondrichthyes && sc-biology-taxons-species"
+              ]
+             }
+            ],
+            "defs": [
+             "sc-biology-fish && sc-biology-taxons-species"
+            ]
+           }
+          ]
+         },
+         {
+          "id": "sc-biology-plants",
+          "title": {
+           "de": "Pflanzen",
+           "en": "Plants"
+          },
+          "children": [
+           {
+            "id": "sc-biology-plants-angiosperms",
+            "title": {
+             "de": "Bedecktsamer",
+             "en": "Angiosperms"
+            },
+            "defs": [
+             "sc-biology-plants-angiosperms && sc-biology-taxons-species"
+            ]
+           },
+           {
+            "id": "sc-biology-plants-conifers",
+            "title": {
+             "de": "Koniferen",
+             "en": "Coniferae"
+            },
+            "defs": [
+             "sc-biology-plants-conifers && sc-biology-taxons-species"
+            ]
+           }
+          ],
+          "defs": [
+           "sc-biology-plants && sc-biology-taxons-species"
+          ]
+         },
+         {
+          "id": "sc-biology-funghi",
+          "title": {
+           "de": "Pilze",
+           "en": "Funghi"
+          },
+          "children": [
+           {
+            "id": "sc-biology-funghi-edible",
+            "title": {
+             "de": "Esspilze",
+             "en": "Edible Mushrooms"
+            },
+            "defs": [
+             "sc-biology-funghi-edible && sc-biology-taxons-species"
+            ]
+           },
+           {
+            "id": "sc-biology-funghi-poisonous",
+            "title": {
+             "de": "Giftpilze",
+             "en": "Poisonous Mushrooms"
+            },
+            "defs": [
+             "sc-biology-funghi-poisonous && sc-biology-taxons-species"
+            ]
+           }
+          ],
+          "defs": [
+           "sc-biology-funghi && sc-biology-taxons-species"
+          ]
+         },
+         {
+          "id": "sc-biology-anatomy",
+          "title": {
+           "de": "Anatomie",
+           "en": "Anatomy"
+          },
+          "children": [
+           {
+            "id": "sc-biology-anatomy-bones",
+            "title": {
+             "de": "Knochen",
+             "en": "Bones"
+            }
+           },
+           {
+            "id": "sc-biology-anatomy-brain_regions",
+            "title": {
+             "de": "Gehirnregionen",
+             "en": "Brain Regions"
+            }
+           },
+           {
+            "id": "sc-biology-anatomy-muscles",
+            "title": {
+             "de": "Muskeln",
+             "en": "Muscles"
+            }
+           },
+           {
+            "id": "sc-biology-anatomy-organs",
+            "title": {
+             "de": "Organe",
+             "en": "Organs"
+            }
+           },
+           {
+            "id": "sc-biology-anatomy-tissues",
+            "title": {
+             "de": "Gewebe",
+             "en": "Tissues"
+            }
+           },
+           {
+            "id": "sc-biology-anatomy-blood_vessels",
+            "title": {
+             "de": "Blutgefässe",
+             "en": "Blood Vessels"
+            },
+            "children": [
+             {
+              "id": "sc-biology-anatomy-blood_vessels-veins",
+              "title": {
+               "de": "Venen",
+               "en": "Veins"
+              },
+              "children": null
+             },
+             {
+              "id": "sc-biology-anatomy-blood_vessels-arteries",
+              "title": {
+               "de": "Arterien",
+               "en": "Arteries"
+              },
+              "children": null
+             }
+            ]
+           },
+           {
+            "id": "sc-biology-anatomy-joints",
+            "title": {
+             "de": "Gelenke",
+             "en": "Joints"
+            },
+            "children": null
+           }
+          ]
+         },
+         {
+          "id": "sc-biology-genes",
+          "title": {
+           "de": "Gene",
+           "en": "Genes"
+          }
+         },
+         {
+          "id": "sc-biology-branches",
+          "title": {
+           "de": "Gebiete der Biologie",
+           "en": "Branches of Biology"
+          }
+         },
+         {
+          "id": "sc-biology-concepts",
+          "title": {
+           "de": "Begriffe der Biologie",
+           "en": "Concepts of Biology"
+          }
+         }
+        ],
+        "def": "CHILDREN"
+       },
+       {
+        "id": "sc-geology",
+        "title": {
+         "de": "Geologie",
+         "en": "Geology"
+        },
+        "children": [
+         {
+          "id": "sc-geology-geologists",
+          "title": {
+           "de": "Geolog*en",
+           "en": "Geologists"
+          }
+         },
+         {
+          "id": "sc-geology-ages",
+          "title": {
+           "de": "Zeitalter",
+           "en": "Ages"
+          },
+          "children": [
+           {
+            "id": "sc-geology-ages-supereons",
+            "title": {
+             "de": "Super-Äonen",
+             "en": "Supereons"
+            }
+           },
+           {
+            "id": "sc-geology-ages-eons",
+            "title": {
+             "de": "Äonen",
+             "en": "Eons"
+            }
+           },
+           {
+            "id": "sc-geology-ages-eras",
+            "title": {
+             "de": null,
+             "en": "Eras"
+            }
+           },
+           {
+            "id": "sc-geology-ages-periods",
+            "title": {
+             "de": null,
+             "en": "Periods"
+            }
+           },
+           {
+            "id": "sc-geology-ages-epochs",
+            "title": {
+             "de": null,
+             "en": "Epochs"
+            }
+           },
+           {
+            "id": "sc-geology-ages-ages",
+            "title": {
+             "de": null,
+             "en": "Ages"
+            }
+           }
+          ]
+         },
+         {
+          "id": "sc-geology-branches",
+          "title": {
+           "de": "Gebiete der Geologie",
+           "en": "Branches of Geology"
+          }
+         },
+         {
+          "id": "sc-geology-concepts",
+          "title": {
+           "de": "Geologische Begriffe",
+           "en": "Geological Concepts"
+          }
+         }
+        ]
+       },
+       {
+        "id": "sc-astronomy",
+        "title": {
+         "de": "Astronomie",
+         "en": "Astronomy"
+        },
+        "children": [
+         {
+          "id": "sc-astronomy-astronomists",
+          "title": {
+           "de": "Astronomen",
+           "en": "Astronomists"
+          }
+         },
+         {
+          "id": "sc-astronomy-branches",
+          "title": {
+           "de": "Gebiete der Astronomie",
+           "en": "Branches of Astronomy"
+          }
+         },
+         {
+          "id": "sc-astronomy-concepts",
+          "title": {
+           "de": "Begriffe der Astronomie",
+           "en": "Concepts of Astronomy"
+          }
+         }
+        ]
+       },
+       {
+        "id": "sc-geography",
+        "title": {
+         "de": "Geographie",
+         "en": "Geography"
+        },
+        "children": [
+         {
+          "id": "sc-geography-countries",
+          "title": {
+           "de": "Länder",
+           "en": "Countries"
+          },
+          "children": [
+           {
+            "id": "sc-geography-countries-continent#africa",
+            "title": {
+             "de": "Afrikanische Länder",
+             "en": "African Countries"
+            },
+            "image": "https://images.unsplash.com/photo-1541710779314-420c0acd3fdc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
+           },
+           {
+            "id": "sc-geography-countries-continent#europe",
+            "title": {
+             "de": "Europäische Länder",
+             "en": "European Countries"
+            },
+            "image": "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+           },
+           {
+            "id": "sc-geography-countries-continent#asia",
+            "title": {
+             "de": "Asiatische Länder",
+             "en": "Asian Countries"
+            }
+           },
+           {
+            "id": "sc-geography-countries-continent#north_america",
+            "title": {
+             "de": "Nordamerikanische Länder",
+             "en": "North American Countries"
+            }
+           },
+           {
+            "id": "sc-geography-countries-continent#south_america",
+            "title": {
+             "de": "Südamerikanische Länder",
+             "en": "South American Countries"
+            }
+           },
+           {
+            "id": "sc-geography-countries-continent#australia",
+            "title": {
+             "de": "Ozeanische Länder",
+             "en": "Oceanic Countries"
+            }
+           }
+          ],
+          "crossRelations": [
+           "continent"
+          ],
+          "image": "https://images.unsplash.com/photo-1554623515-3b2f224b92f2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
+         },
+         {
+          "id": "sc-geography-cities",
+          "title": {
+           "de": "Städte",
+           "en": "Cities"
+          },
+          "crossRelations": [
+           "country",
+           "continent"
+          ]
+         },
+         {
+          "id": "sc-geography-rivers",
+          "title": {
+           "de": "Flüsse & Ströme",
+           "en": "Rivers"
+          },
+          "crossRelations": [
+           "country",
+           "continent"
+          ]
+         },
+         {
+          "id": "sc-geography-mountains",
+          "title": {
+           "de": "Berge & Gipfel",
+           "en": "Mountains & Summits"
+          },
+          "crossRelations": [
+           "country",
+           "continent"
+          ]
+         },
+         {
+          "id": "sc-geography-islands",
+          "title": {
+           "de": "Inseln",
+           "en": "Islands"
+          },
+          "crossRelations": [
+           "country",
+           "continent"
+          ]
+         },
+         {
+          "id": "sc-geography-lakes",
+          "title": {
+           "de": "Seen",
+           "en": "Lakes"
+          },
+          "crossRelations": [
+           "country",
+           "continent"
+          ]
+         },
+         {
+          "id": "sc-geography-valleys",
+          "title": {
+           "de": "Täler",
+           "en": "Valleys"
+          },
+          "crossRelations": [
+           "country",
+           "continent"
+          ]
+         },
+         {
+          "id": "sc-geography-mountainpasses",
+          "title": {
+           "de": "Bergpässe",
+           "en": "Mountain Passes"
+          },
+          "crossRelations": [
+           "country",
+           "continent"
+          ]
+         }
+        ],
+        "crossRelations": [
+         "country",
+         "continent"
+        ]
+       }
+      ],
+      "image": "https://images.unsplash.com/photo-1526666923127-b2970f64b422?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
+     },
+     {
+      "id": "soc",
+      "title": {
+       "de": "Soziales & Kultur",
+       "en": "Social Sciences & Culture"
+      },
+      "canLearn": false,
+      "children": [
+       {
+        "id": "soc-psychology",
+        "title": {
+         "de": "Psychologie",
+         "en": "Psychology"
+        },
+        "children": [
+         {
+          "id": "soc-psychology-psychologists",
+          "title": {
+           "de": "Psycholog*innen",
+           "en": "Psychologists"
+          }
+         },
+         {
+          "id": "soc-psychology-branches",
+          "title": {
+           "de": "Gebiete der Psychologie",
+           "en": "Branches of Psychology"
+          }
+         },
+         {
+          "id": "soc-psychology-concepts",
+          "title": {
+           "de": "Psychologische Begriffe",
+           "en": "Psychological Concepts"
+          }
+         }
+        ],
+        "def": "CHILDREN"
+       },
+       {
+        "id": "soc-sociology",
+        "title": {
+         "de": "Soziologie",
+         "en": "Sociology"
+        },
+        "children": [
+         {
+          "id": "soc-sociology-sociologists",
+          "title": {
+           "de": "Soziolog*en",
+           "en": "Sociologists"
+          }
+         },
+         {
+          "id": "soc-sociology-branches",
+          "title": {
+           "de": "Gebiete der Soziologie",
+           "en": "Branches of Sociology"
+          }
+         },
+         {
+          "id": "soc-sociology-concepts",
+          "title": {
+           "de": "Soziologische Begriffe",
+           "en": "Sociological Concepts"
+          }
+         }
+        ],
+        "def": "CHILDREN"
+       },
+       {
+        "id": "soc-economics",
+        "title": {
+         "de": "Ökonomie",
+         "en": "Economics"
+        },
+        "children": [
+         {
+          "id": "soc-economics-economists",
+          "title": {
+           "de": "Ökonomen",
+           "en": "Economists"
+          }
+         },
+         {
+          "id": "soc-economics-branches",
+          "title": {
+           "de": "Gebiete der Ökonomie",
+           "en": "Branches of Economics"
+          }
+         },
+         {
+          "id": "soc-economics-concepts",
+          "title": {
+           "de": "Begriffe der Ökonomie",
+           "en": "Concepts of Economy"
+          }
+         }
+        ],
+        "def": "CHILDREN"
+       },
+       {
+        "id": "soc-law",
+        "title": {
+         "de": "Jura",
+         "en": "Law"
+        },
+        "children": [
+         {
+          "id": "soc-law-cases",
+          "title": {
+           "de": "Gerichtsfälle",
+           "en": "Law cases"
+          }
+         },
+         {
+          "id": "soc-law-lawyers",
+          "title": {
+           "de": "Juristen",
+           "en": "Lawyers"
+          }
+         },
+         {
+          "id": "soc-law-justices",
+          "title": {
+           "de": "Richter",
+           "en": "Justices"
+          }
+         },
+         {
+          "id": "soc-law-branches",
+          "title": {
+           "de": "Gebiete der Jura",
+           "en": "Branches of Law"
+          }
+         },
+         {
+          "id": "-concepts",
+          "title": {
+           "de": "Juristische Begriffe",
+           "en": "Juridical Concepts"
+          }
+         }
+        ],
+        "def": "CHILDREN"
+       }
+      ]
+     },
+     {
+      "id": "log",
+      "title": {
+       "de": "Mathe, Technik und Logik",
+       "en": "Math, Tech and Logic"
+      },
+      "canLearn": false,
+      "children": [
+       {
+        "id": "log-math",
+        "title": {
+         "de": "Mathematik",
+         "en": "Mathematics"
+        },
+        "children": [
+         {
+          "id": "log-mathematicians",
+          "title": {
+           "de": "Mathematiker",
+           "en": "Mathematicians"
+          }
+         },
+         {
+          "id": "log-math-branches",
+          "title": {
+           "de": "Gebiete der Mathematik",
+           "en": "Branches of Mathematics"
+          }
+         },
+         {
+          "id": "log-math-concepts",
+          "title": {
+           "de": "Mathematische Begriffe",
+           "en": "Mathematical Concepts"
+          }
+         }
+        ],
+        "def": "CHILDREN"
+       },
+       {
+        "id": "log-it",
+        "title": {
+         "de": "Informatik",
+         "en": "Information Technology"
+        },
+        "children": [
+         {
+          "id": "log-it-compscientists",
+          "title": {
+           "de": "Computerwissenschafter",
+           "en": "Computer Scientists"
+          }
+         },
+         {
+          "id": "log-it-branches",
+          "title": {
+           "de": "Gebiete der Informatik",
+           "en": "Branches of Computer Science"
+          }
+         },
+         {
+          "id": "log-it-concepts",
+          "title": {
+           "de": "Begriffe der Informatik",
+           "en": "Computer Concepts"
+          }
+         }
+        ],
+        "def": "CHILDREN"
+       },
+       {
+        "id": "log-tech",
+        "title": {
+         "de": "Technik & Engineering",
+         "en": "Technics & Engineering"
+        },
+        "children": [
+         {
+          "id": "log-tech-inventors",
+          "title": {
+           "de": "Erfinder",
+           "en": "Inventors"
+          }
+         },
+         {
+          "id": "log-tech-branches",
+          "title": {
+           "de": "Gebiete der Technik",
+           "en": "Branches of Technics"
+          }
+         },
+         {
+          "id": "log-tech-concepts",
+          "title": {
+           "de": "Technische Begriffe",
+           "en": "Technical Concepts"
+          }
+         }
+        ],
+        "def": "CHILDREN"
+       },
+       {
+        "id": "log-logic",
+        "title": {
+         "de": "Logik",
+         "en": "Logic"
+        },
+        "children": [
+         {
+          "id": "log-logic-logicians",
+          "title": {
+           "de": "Logiker",
+           "en": "Logicians"
+          }
+         },
+         {
+          "id": "log-logic-branches",
+          "title": {
+           "de": "Gebiete der Logik",
+           "en": "Branches of Logic"
+          }
+         },
+         {
+          "id": "log-logic-concepts",
+          "title": {
+           "de": "Begriffe der Logik",
+           "en": "Concepts of Logic"
+          }
+         }
+        ],
+        "def": "CHILDREN"
+       }
+      ]
+     }
+    ],
+    "image": "https://images.unsplash.com/photo-1507576566681-1932a6a38099?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=80"
+   };
