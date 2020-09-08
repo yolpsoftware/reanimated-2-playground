@@ -96,13 +96,7 @@ export default function CoupledScrollViews(props) {
         for (let level = 0; level < 4; level++) {
             levelYOffsets[level].setValue(level < courseLevel ? 0 : (courseLevel - level) * LEVEL_HEIGHT);
             if (scrollRefs[level].current != null) {
-                let item = null;
-                if (scrollRefs[level].current.getNode) {
-                    item = scrollRefs[level].current.getNode();
-                } else {
-                    item = scrollRefs[level].current;
-                }
-                item.scrollToIndex({ animated: true, index: course.listIndex[level], });
+                scrollRefs[level].current.scrollToIndex({ animated: true, index: course.listIndex[level], });
             }
         }
     }, []);
