@@ -28,8 +28,12 @@ export default function CoupledScrollViews(props) {
             levelCourses.push(getSubLevelCourses(levelCourses[i - 1]));
         }
         levelYOffsets.push(new Animated.Value(0));
-        scrollIndices.push(useSharedValue(0));
-        isCurrentlyScrolling.push(useSharedValue(0));
+        scrollIndices.push(useSharedValue());
+        isCurrentlyScrolling.push(useSharedValue());
+        if (scrollIndices[i].value == null) {
+            scrollIndices[i].value = 0;
+            isCurrentlyScrolling[i].value = 0;
+        }
     }
     // copy sub-level list indices to parent levels
     const lowestLevel = levelCourses[NOF_LEVELS - 1];
@@ -78,7 +82,8 @@ export default function CoupledScrollViews(props) {
                                 stiffness: 200 + level * 10,
                             });
                         } else if (otherLevel > level) {
-                            scrollIndices[otherLevel].value = withSpring(course.listIndex[otherLevel] + course.nOfSiblings[otherLevel] * progress, {
+                            const newValue = course.listIndex[otherLevel] + course.nOfSiblings[otherLevel] * progress;
+                            scrollIndices[otherLevel].value = withSpring(newValue, {
                                 damping: 30,
                                 mass: 1,
                                 stiffness: 200 + level * 10,
@@ -204,14 +209,19 @@ const getSubLevelCourses = (courses) => {
     return result;
 }
 
+//let itemWArr = null;
 const CourseList = (props) => {
 
-    const offsets = useSharedValue([]);
+    const offsets = useSharedValue(null);
+    if (!offsets.value) {
+        offsets.value = [];
+    }
     const [offsetsRerenderCounter, doRerender] = useState(0);
     let [itemWidths, setItemWidths] = useState([]);
-    if (props.level === 2) {
-        console.info(`creating new itemWidths array for level ${level}`);
-    }
+    //if (props.level === 2 && itemWArr !== itemWidths) {
+    //    console.info(`creating new itemWidths array for level ${props.level}: ${itemWidths.join(', ')}`);
+    //    itemWArr = itemWidths;
+    //}
 
     const renderCourseCb = (item) => {
         if (item.item.index == null) {
@@ -243,8 +253,8 @@ const CourseList = (props) => {
                 newOffsets[i + 1] = newOffsets[i] + (itemWidths[i] || 0);
             }
             //if (level === 2) {
-                console.info(`${level} itemWidths: ${itemWidths.join(',')}`);
-                console.info(`${level} setting offsets: ${newOffsets.join(',')}`);
+                //console.info(`${level} itemWidths: ${itemWidths.join(',')}`);
+                //console.info(`${level} setting offsets: ${newOffsets.join(',')}`);
             //}
             offsets.value = newOffsets;
             doRerender(offsetsRerenderCounter + 1);
